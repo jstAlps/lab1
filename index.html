@@ -15,7 +15,7 @@
   // Отримуємо значення коду країни з елемента з ідентифікатором "country-code"
   var countryCode = document.getElementById('country-code').value;
   // Формуємо URL-адресу запиту до веб API з кодом країни
-  var url = 'http://api.worldbank.org/v2/country/' + countryCode + '?format=json';
+  var url = 'https://api.worldbank.org/v2/country/' + countryCode + '?format=json';
 
   // Виконуємо запит до веб API за допомогою функції "fetch()"
   fetch(url)
