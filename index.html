@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Запит до веб API</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: inline-block;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 8px 12px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #3e8e41;
+    }
+
+    #country-info {
+      font-size: 20px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Запит до веб API</h1>
+  <p>Введіть ISO-2 код країни:</p>
+  <input type="text" id="country-code" />
+  <button onclick="getCountryInfo()">Отримати інформацію</button>
+  <div id="country-info"></div>
+
+  <script>
+    function getCountryInfo() {
+      // Отримуємо значення коду країни з елемента з ідентифікатором "country-code"
+      var countryCode = document.getElementById('country-code').value;
+      // Формуємо URL-адресу запиту до веб API з кодом країни
+      var url = 'https://api.worldbank.org/v2/country/' + countryCode + '?format=json';
+
+      // Виконуємо запит до веб API за допомогою функції "fetch()"
+      fetch(url)
+        // Обробляємо відповідь у форматі JSON
+        .then(function(response) {
+          return response.json();
+        })
+        // Обробляємо дані з відповіді та виводимо їх на екрані
+        .then(function(data) {
+          // Отримуємо необхідну інформацію про країну з отриманої відповіді
+          var countryName = data[1][0].name;
+          var capitalCity = data[1][0].capitalCity;
+          var region = data[1][0].region.value;
+          var incomeLevel = data[1][0].incomeLevel.value;
+
+          // Формуємо рядок з інформацією про країну
+          var countryInfo = 'Країна: ' + countryName + '\n' +
+                            'Столиця: ' + capitalCity + '\n' +
+                            'Регіон: ' + region + '\n' +
+                            'Рівень доходу: ' + incomeLevel;
+          
+          // Виводимо інформацію про країну у блок "country-info"
+          var countryInfoDiv = document.getElementById('country-info');
+          countryInfoDiv.innerText = countryInfo;
+        })
+        // Обробляємо помилки, якщо вони виникають
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+  </script>
+</body>
+</html>
+
